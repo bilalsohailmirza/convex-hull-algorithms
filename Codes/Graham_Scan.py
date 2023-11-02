@@ -14,7 +14,7 @@ def plot_hulls(L, Points):
 	plt.plot(Points[:,0],Points[:,1],".r")		# Plot points
 	plt.axis('auto')		# Manage axis
 	plt.show(block=False)	# Closing plot otherwise new window pops up
-	plt.pause(0.1)	# Mini-pause before closing plot
+	plt.pause(0.1)	# Small pause before closing plot
 
 def GrahamScan(Points):
 
@@ -67,7 +67,7 @@ def main():
 
 	Final_Hull = GrahamScan(Points)
 
-	print('Obtained Final Hull')
+	print('Points on Final Hull')
 	print(Final_Hull)
 
 if __name__ == '__main__':
