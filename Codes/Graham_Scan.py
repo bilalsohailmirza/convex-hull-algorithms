@@ -9,9 +9,9 @@ def CCW(p1, p2, p3):
 	return True
 
 def plot_hulls(L, Points):
-	plt.clf()		# Clear plt.fig
-	plt.plot(L[:,0],L[:,1], '-b', picker=5)	# Plot lines
-	plt.plot(Points[:,0],Points[:,1],".r")		# Plot points
+	
+	plt.plot(L[:,0],L[:,1], '-', color='grey')	# Plot lines
+	plt.plot(Points[:,0],Points[:,1],".", color='white')		# Plot points
 	plt.axis('auto')		# Manage axis
 	plt.show(block=False)	# Closing plot otherwise new window pops up
 	plt.pause(0.1)	# Small pause before closing plot
@@ -21,7 +21,6 @@ def GrahamScan(Points):
 	Points.sort(key = lambda x: x[1])		# Sort the set of points according to y-coordinate
 	Points = np.array(Points)			# Convert the list to numpy array
 
-	plt.figure()			# Create a new fig
 	Upper_Hull = [Points[0], Points[1]] # Initialize the upper part
 
 	# Compute the upper part of the hull
@@ -31,7 +30,7 @@ def GrahamScan(Points):
 			del Upper_Hull[-2]
 		Final_Hull = np.array(Upper_Hull)
 
-		plot_hulls(Final_Hull, Points)
+	plot_hulls(Final_Hull, Points)
 		
 
 	Lower_Hull = [Points[-1], Points[-2]]	# Initialize the lower part
@@ -43,7 +42,7 @@ def GrahamScan(Points):
 			del Lower_Hull[-2]
 		Final_Hull = np.array(Upper_Hull + Lower_Hull)
 
-		plot_hulls(Final_Hull, Points)
+	plot_hulls(Final_Hull, Points)
 		
 	del Lower_Hull[0]
 	del Lower_Hull[-1]
@@ -59,11 +58,15 @@ def main():
 	except:
 		N = int(input("Introduce N: "))
 		
-	Points = [(np.random.randint(-300,300),np.random.randint(-300,300)) for i in range(N)]
+	Points = [(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)]
 
 	print("Generated Points: ")
 	for p in Points:
 		print(p)
+
+	plt.figure(facecolor='darkgrey')
+	axes = plt.axes()
+	axes.set_facecolor('#2f3f3f')
 
 	Final_Hull = GrahamScan(Points)
 

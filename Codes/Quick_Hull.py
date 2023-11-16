@@ -4,15 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def CCW(p1, p2, p3):
-    # return true if p3 is in the leftside of line p1p2
-    # else return false
+    
     if (p3[1]-p1[1])*(p2[0]-p1[0]) >= (p2[1]-p1[1])*(p3[0]-p1[0]):
         return False
     
     return True
 
 def find_distance(p1, p2, p3):
-    #return the distance from point p3 to line p1p2
+    
     x1, y1 = p1
     x2, y2 = p2
     x3, y3 = p3
@@ -24,7 +23,7 @@ def find_distance(p1, p2, p3):
     return ans
 
 def find_max_distance(p1, p2, Points):
-    # return a point from listPts who has most distance from line p1p2
+    
     max_dist = float(0)
     ans = []
     for point in Points:
@@ -35,7 +34,7 @@ def find_max_distance(p1, p2, Points):
     return ans
 
 def QuickHull (min, max, Points, direction):
-    # return the points that make the convex hull for listPts
+    
     LeftHull = []
     RightHull = []
     HullPoints = []
@@ -50,16 +49,18 @@ def QuickHull (min, max, Points, direction):
     checked = False
     if direction != 1:
         leftMostPts = find_max_distance(min, max, LeftHull)
-        #print(direction,leftMostPts)
+        
         if len(leftMostPts) > 0:
+
             HullPoints = HullPoints + QuickHull(min, leftMostPts, LeftHull, 0)
             HullPoints = HullPoints + QuickHull(leftMostPts, max, LeftHull, 0)
         else:
             checked = True
             HullPoints.append(max)
     if direction != 0:
+
         rigthMostPts = find_max_distance(min, max, RightHull)
-        #print(direction,rigthMostPts)
+        
         if len(rigthMostPts) > 0:
             HullPoints = HullPoints + QuickHull(rigthMostPts, max, RightHull, 1)
             HullPoints = HullPoints + QuickHull(min, rigthMostPts, RightHull, 1)
@@ -96,14 +97,15 @@ def main():
     print(FinalHull)
 
     # Plotting
-    plt.figure(facecolor='#4e4e4e')
+    plt.figure(facecolor='darkgrey')
     axes = plt.axes()
-    axes.set_facecolor('#6f6f6f')
-    plt.title("Quick Hull")
+    axes.set_facecolor('#2f3f3f')
+    title_obj = plt.title('Quick Hull')
+    # plt.setp(title_obj, color='w') 
     for i in Points:
-        plt.plot(i[0],i[1],'.w')
+        plt.plot(i[0],i[1], '.', color='white')
 
-    plt.plot(x,y, '-r')
+    plt.plot(x,y, '-', color='grey')
     plt.show()
 
 if __name__ == '__main__':

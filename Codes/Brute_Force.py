@@ -31,7 +31,7 @@ def BruteForce(Points):
                         x_values = [Points[i][0], Points[j][0]]
                         y_values = [Points[i][1], Points[j][1]]
                         plt.title("Brute Force")
-                        plt.plot(x_values, y_values, '-r')
+                        plt.plot(x_values, y_values, '-', color='grey')
                         plt.show(block=False)
                         plt.pause(0.01)
 
@@ -45,11 +45,14 @@ def main():
         
     Points = [(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)]
 
-
+    plt.figure(facecolor='darkgrey')
+    axes = plt.axes()
+    axes.set_facecolor('#2f3f3f')
+    
     print("Generated Points: ")
     for p in Points:
         print(p)
-        plt.plot(p[0], p[1], '.b')
+        plt.plot(p[0], p[1], '.', color='white')
     
     BruteForce(Points)
     

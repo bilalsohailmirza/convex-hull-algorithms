@@ -10,16 +10,15 @@ def CCW(p1, p2, p3):
 	return False
 
 def plot_hulls(JarvisMarch, Points):
-    plt.clf()               # Clear plot
-    plt.title("Jarvis March")
-    plt.plot(JarvisMarch[:,0],JarvisMarch[:,1], 'b-', picker=5)   # Plot lines
-    plt.plot(Points[:,0],Points[:,1],".r")              # Plot points
-    plt.axis('auto')         # No axis
-    plt.show(block=False)   # Close plot
-    plt.pause(0.1)    # Small pause before closing plot
+	
+	plt.title("Jarvis March")
+	plt.plot(JarvisMarch[:,0],JarvisMarch[:,1], '-', color='grey')   # Plot lines
+	plt.plot(Points[:,0],Points[:,1],'.', color='white')              # Plot points
+	plt.axis('auto')         # No axis
+	plt.show(block=False)   # Close plot
+	plt.pause(0.1)    # Small pause before closing plot
 
 def JarvisMarch(Points):
-	plt.figure()
 	index = 0
 	Points = list(Points)
 	Points.sort(key = lambda x: x[1])	# Sort the set of points according to y-coordinate
@@ -65,11 +64,15 @@ def main():
 		N = int(input("Introduce N: "))
   
 	
-	Points = np.array([(np.random.randint(-300,300),np.random.randint(-300,300)) for i in range(N)])
+	Points = np.array([(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)])
 
 	print("Generated Points: ")
 	for p in Points:
 		print(p)
+
+	plt.figure(facecolor='darkgrey')
+	axes = plt.axes()
+	axes.set_facecolor('#2f3f3f')
 
 	Final_Hull = JarvisMarch(Points)
 
@@ -78,9 +81,9 @@ def main():
 	
 	# We use the predefined figure
 	plt.title("Jarvis March")
-	plt.plot(Final_Hull[:,0],Final_Hull[:,1], 'b-', picker=5)
-	plt.plot([Final_Hull[-1,0],Final_Hull[0,0]],[Final_Hull[-1,1],Final_Hull[0,1]], 'b-', picker=5)
-	plt.plot(Points[:,0],Points[:,1],".r")
+	plt.plot(Points[:,0],Points[:,1],'.', color='white')
+	plt.plot(Final_Hull[:,0],Final_Hull[:,1], '-', color='grey')
+	plt.plot([Final_Hull[-1,0],Final_Hull[0,0]],[Final_Hull[-1,1],Final_Hull[0,1]], '-', color='grey')
 	plt.axis('auto')
 	plt.show()
 
