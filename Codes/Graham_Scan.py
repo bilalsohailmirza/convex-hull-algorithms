@@ -1,4 +1,5 @@
 import sys
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -48,11 +49,10 @@ def GrahamScan(Points):
 	del Lower_Hull[-1]
 
 	Final_Hull = Upper_Hull + Lower_Hull 		# Build the full hull
-	plt.axis('auto')
-	plt.show()
+	
 	return np.array(Final_Hull)
 
-def main():
+def main(start):
 	try:
 		N = int(sys.argv[1])
 	except:
@@ -60,18 +60,21 @@ def main():
 		
 	Points = [(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)]
 
-	print("Generated Points: ")
-	for p in Points:
-		print(p)
+	# print("Generated Points: ")
+	# for p in Points:
+	# 	print(p)
 
 	plt.figure(facecolor='darkgrey')
 	axes = plt.axes()
 	axes.set_facecolor('#2f3f3f')
 
 	Final_Hull = GrahamScan(Points)
-
-	print('Points on Final Hull')
-	print(Final_Hull)
+	print("Execution Time: ", time.time() - start)
+	plt.axis('auto')
+	plt.show()
+	# print('Points on Final Hull')
+	# print(Final_Hull)
 
 if __name__ == '__main__':
-  main()
+  start = time.time()
+  main(start)

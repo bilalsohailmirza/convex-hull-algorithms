@@ -1,4 +1,5 @@
 import sys
+import time
 from math import sqrt
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,7 +70,7 @@ def QuickHull (min, max, Points, direction):
 
     return HullPoints
 
-def main():
+def main(start):
     try:
         N = int(sys.argv[1])
     except:
@@ -78,6 +79,7 @@ def main():
     Points = [(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)]
 
     FinalHull = QuickHull(Points[0], Points[N-1], Points, 10)
+    print("Execution Time: ", time.time() - start)
 
     if not(Points[0] in FinalHull):
         FinalHull = [Points[0]] + FinalHull
@@ -91,10 +93,10 @@ def main():
     x.append(x[0])
     y.append(y[0])
 
-    print('Generated Points :')
-    print(Points)
-    print('Points On Convex Hull :')
-    print(FinalHull)
+    # print('Generated Points :')
+    # print(Points)
+    # print('Points On Convex Hull :')
+    # print(FinalHull)
 
     # Plotting
     plt.figure(facecolor='darkgrey')
@@ -109,4 +111,5 @@ def main():
     plt.show()
 
 if __name__ == '__main__':
-    main()
+    start = time.time()
+    main(start)

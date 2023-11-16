@@ -1,4 +1,5 @@
 import sys
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -57,7 +58,7 @@ def JarvisMarch(Points):
 	
 	return FinalHull
 
-def main():
+def main(start):
 	try:
 		N = int(sys.argv[1])
 	except:
@@ -66,18 +67,18 @@ def main():
 	
 	Points = np.array([(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)])
 
-	print("Generated Points: ")
-	for p in Points:
-		print(p)
+	# print("Generated Points: ")
+	# for p in Points:
+	# 	print(p)
 
 	plt.figure(facecolor='darkgrey')
 	axes = plt.axes()
 	axes.set_facecolor('#2f3f3f')
 
 	Final_Hull = JarvisMarch(Points)
-
-	print("Points in the Hull:")
-	print(Final_Hull)
+	print("Execution Time: ", time.time() - start)
+	# print("Points in the Hull:")
+	# print(Final_Hull)
 	
 	# We use the predefined figure
 	plt.title("Jarvis March")
@@ -88,4 +89,5 @@ def main():
 	plt.show()
 
 if __name__ == '__main__':
-	main()
+	start = time.time()
+	main(start)

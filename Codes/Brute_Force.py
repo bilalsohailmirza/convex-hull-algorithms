@@ -36,7 +36,7 @@ def BruteForce(Points):
                         plt.pause(0.01)
 
 
-def main():
+def main(start):
     
     try:
         N = int(sys.argv[1])
@@ -55,11 +55,11 @@ def main():
         plt.plot(p[0], p[1], '.', color='white')
     
     BruteForce(Points)
-    
+    print("Execution Time: ", time.time() - start)
 
     plt.show()
 
 if __name__ == '__main__':
 
     start = time.time()
-    main()
+    main(start)
