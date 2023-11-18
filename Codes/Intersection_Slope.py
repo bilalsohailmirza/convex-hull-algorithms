@@ -93,4 +93,7 @@ def draw_line_segments(line,setColor):
 
 if __name__ == '__main__':
     cid = fig.canvas.mpl_connect('button_press_event', on_click)
+
+
+    plt.title('Line Intersection')
     plt.show()
