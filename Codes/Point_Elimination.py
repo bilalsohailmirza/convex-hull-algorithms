@@ -1,13 +1,27 @@
+import sys
 import random
+import time
+import csv
+import numpy as np
 from matplotlib import pyplot as plt
+
+
+def WriteFile(data):
+    header = ['Size', 'Time']
+
+    with open('PointElimination.csv', 'a', encoding='UTF8') as f:
+        
+        writer = csv.writer(f)
+        # write the header
+        # writer.writerow(header)
+        # write the data
+        writer.writerow(data)
 
 
 def initPoints(n):
     Points = []
     for i in range(0, n):  # Plots points on table
-        Points.append(
-            (random.randint(1, 100), random.randint(1, 100))
-        )  # Change bounds to increase or decrease
+        Points.append((np.random.randint(1, 100), random.randint(1, 100)))  # Change bounds to increase or decrease
     return Points
 
 
@@ -60,10 +74,10 @@ def PointElimination(Points, N):
             if sum_of_triangles != quadrilateral:
                 outside_points.append(point)
 
-    outside_points.append(highest)
-    outside_points.append(lowest)
-    outside_points.append(right_most)
-    outside_points.append(left_most)
+    # outside_points.append(highest)
+    # outside_points.append(lowest)
+    # outside_points.append(right_most)
+    # outside_points.append(left_most)
 
     x_sortedPoints = sorted(outside_points, key=lambda x: x[0])
     y_sortedPoints = sorted(outside_points, key=lambda x: x[1])
@@ -145,19 +159,104 @@ def PointElimination(Points, N):
 
     outside_points = list(set(outside_points).difference(set(inside_points)))
 
-    for point in outside_points:
-        plt.plot(point[0], point[1], ".r")
+    outside_points.append(highest)
+    outside_points.append(lowest)
+    outside_points.append(right_most)
+    outside_points.append(left_most)
+    outside_points.append(top_right)
+    outside_points.append(top_left)
+    outside_points.append(bottom_right)
+    outside_points.append(bottom_left)
+    # for point in outside_points:
+    #     plt.plot(point[0], point[1], ".r")
 
+    return outside_points
+
+def CCW(p1, p2, p3):
+	if (p3[1]-p1[1])*(p2[0]-p1[0]) >= (p2[1]-p1[1])*(p3[0]-p1[0]):
+		return False
+	return True
+
+def plot_hulls(L, Points):
+	# plt.clf()		# Clear plt.fig
+	plt.plot(L[:,0],L[:,1], '-', color='grey')	# Plot lines
+	plt.plot(Points[:,0],Points[:,1],".", color='white')		# Plot points
+	plt.axis('auto')		# Manage axis
+	plt.show(block=False)	# Closing plot otherwise new window pops up
+	plt.pause(0.1)	# Small pause before closing plot
+
+def GrahamScan(Points):
+
+	Points.sort(key = lambda x: x[1])		# Sort the set of points according to y-coordinate
+	Points = np.array(Points)			# Convert the list to numpy array
+
+	# plt.figure()			# Create a new fig
+	Upper_Hull = [Points[0], Points[1]] # Initialize the upper part
+
+	# Compute the upper part of the hull
+	for i in range(2,len(Points)):
+		Upper_Hull.append(Points[i])
+		while len(Upper_Hull) > 2 and not CCW(Upper_Hull[-1],Upper_Hull[-2],Upper_Hull[-3]):
+			del Upper_Hull[-2]
+		Final_Hull = np.array(Upper_Hull)
+
+		plot_hulls(Final_Hull, Points)
+		
+
+	Lower_Hull = [Points[-1], Points[-2]]	# Initialize the lower part
+
+	# Compute the lower part of the hull
+	for i in range(len(Points)-3,-1,-1):
+		Lower_Hull.append(Points[i])
+		while len(Lower_Hull) > 2 and not CCW(Lower_Hull[-1],Lower_Hull[-2],Lower_Hull[-3]):
+			del Lower_Hull[-2]
+		Final_Hull = np.array(Upper_Hull + Lower_Hull)
+
+		plot_hulls(Final_Hull, Points)
+		
+	del Lower_Hull[0]
+	del Lower_Hull[-1]
+
+	Final_Hull = Upper_Hull + Lower_Hull 		# Build the full hull
+	plt.axis('auto')
+	# plt.show()
+	return np.array(Final_Hull)
 
 def main():
-    # try:
-    #     N = int(sys.argv[1])
-    # except:
-    #     N = int(input("Introduce N: "))
-    N = 1000
-    Points = initPoints(N)
+    try:
+        N = int(sys.argv[1])
+    except:
+        N = int(input("Introduce N: "))
+    
+    # Points = initPoints(N)
+    Points = [(np.random.randint(-300,300),np.random.randint(-300,300)) for i in range(N)]
 
-    PointElimination(Points, N)
+    plt.figure(facecolor='darkgrey')
+    axes = plt.axes()
+    axes.set_facecolor('#2f3f3f')
+
+    for i in Points:
+        plt.plot(i[0],i[1], '.', color='white')
+
+    start = time.time()
+    remaining_points = PointElimination(Points, N)
+    # print(remaining_points)
+
+    Final_Hull = GrahamScan(remaining_points)
+    exec_time = time.time() - start
+    WriteFile([N, exec_time])
+    print(exec_time)
+
+
+    plt.figure(facecolor='darkgrey')
+    axes = plt.axes()
+    axes.set_facecolor('#2f3f3f')
+    plt.title("Point Elimination")
+    # plt.plot(Points[:,0],Points[:,1],'.', color='white')
+    plt.plot(Final_Hull[:,0],Final_Hull[:,1], '-', color='grey')
+    plt.plot([Final_Hull[-1,0],Final_Hull[0,0]],[Final_Hull[-1,1],Final_Hull[0,1]], '-', color='grey')
+    plt.axis('auto')
+    # plt.show()
     plt.show()
 
 

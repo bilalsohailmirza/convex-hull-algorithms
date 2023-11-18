@@ -1,8 +1,23 @@
 import sys
 import time
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+
+def WriteFile(data):
+    header = ['Size', 'Time']
+
+    with open('JarvisMarch.csv', 'a', encoding='UTF8') as f:
+        
+        writer = csv.writer(f)
+        # write the header
+        # writer.writerow(header)
+        # write the data
+        writer.writerow(data)
+
+		
 # Function to know if we have a CCW turn
 def CCW(p1, p2, p3):
 	if (p3[1]-p1[1])*(p2[0]-p1[0]) >= (p2[1]-p1[1])*(p3[0]-p1[0]):
@@ -58,7 +73,7 @@ def JarvisMarch(Points):
 	
 	return FinalHull
 
-def main(start):
+def main():
 	try:
 		N = int(sys.argv[1])
 	except:
@@ -67,16 +82,17 @@ def main(start):
 	
 	Points = np.array([(np.random.randint(-1000,1000),np.random.randint(-1000,1000)) for i in range(N)])
 
-	# print("Generated Points: ")
-	# for p in Points:
-	# 	print(p)
 
 	plt.figure(facecolor='darkgrey')
 	axes = plt.axes()
 	axes.set_facecolor('#2f3f3f')
 
+	start = time.time()
 	Final_Hull = JarvisMarch(Points)
-	print("Execution Time: ", time.time() - start)
+	exec_time = time.time() - start
+
+	WriteFile([N, exec_time])
+	print("Execution Time: ", exec_time)
 	# print("Points in the Hull:")
 	# print(Final_Hull)
 	
@@ -89,5 +105,5 @@ def main(start):
 	plt.show()
 
 if __name__ == '__main__':
-	start = time.time()
-	main(start)
+	
+	main()

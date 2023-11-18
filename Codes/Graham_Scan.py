@@ -1,7 +1,20 @@
 import sys
 import time
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
+
+
+def WriteFile(data):
+    header = ['Size', 'Time']
+
+    with open('GrahamScan.csv', 'a', encoding='UTF8') as f:
+        
+        writer = csv.writer(f)
+        # write the header
+        # writer.writerow(header)
+        # write the data
+        writer.writerow(data)
 
 # Function to know if we have a CCW turn
 def CCW(p1, p2, p3):
@@ -52,7 +65,7 @@ def GrahamScan(Points):
 	
 	return np.array(Final_Hull)
 
-def main(start):
+def main():
 	try:
 		N = int(sys.argv[1])
 	except:
@@ -68,13 +81,18 @@ def main(start):
 	axes = plt.axes()
 	axes.set_facecolor('#2f3f3f')
 
+	start = time.time()
 	Final_Hull = GrahamScan(Points)
-	print("Execution Time: ", time.time() - start)
+	exec_time = time.time() - start
+
+	print("Execution Time: ", exec_time)
+
+	WriteFile([N, exec_time])
 	plt.axis('auto')
 	plt.show()
 	# print('Points on Final Hull')
 	# print(Final_Hull)
 
 if __name__ == '__main__':
-  start = time.time()
-  main(start)
+  
+  main()
