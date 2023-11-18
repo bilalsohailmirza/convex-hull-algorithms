@@ -1,7 +1,23 @@
-import time
 import sys
+import time
+import csv  
 import numpy as np
 import matplotlib.pyplot as plt
+
+
+def WriteFile(data):
+    header = ['Size', 'Time']
+
+    with open('BruteForce.csv', 'a', encoding='UTF8') as f:
+        
+        writer = csv.writer(f)
+        # write the header
+        # writer.writerow(header)
+
+        # write the data
+        writer.writerow(data)
+        
+
 
 
 def CCW(p1, p2, p3):
@@ -36,7 +52,7 @@ def BruteForce(Points):
                         plt.pause(0.01)
 
 
-def main(start):
+def main():
     
     try:
         N = int(sys.argv[1])
@@ -54,12 +70,16 @@ def main(start):
         print(p)
         plt.plot(p[0], p[1], '.', color='white')
     
+    start = time.time()
+
     BruteForce(Points)
-    print("Execution Time: ", time.time() - start)
+    
+    exec_time = time.time() - start
+    print("Execution Time: ", exec_time)
+    WriteFile([N, exec_time])
 
     plt.show()
 
 if __name__ == '__main__':
 
-    start = time.time()
-    main(start)
+    main()
