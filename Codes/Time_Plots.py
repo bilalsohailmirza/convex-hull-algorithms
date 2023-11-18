@@ -8,7 +8,7 @@ def Plot(Paths):
     fig = go.Figure()
 
     for path in Paths:
-        data_frame = pd.read_csv(path, sep=',')
+        data_frame = pd.read_csv('../CSVs/' + path, sep=',')
         data_frame_sorted = data_frame.sort_values(by='Size')
 
         fig.add_trace(
