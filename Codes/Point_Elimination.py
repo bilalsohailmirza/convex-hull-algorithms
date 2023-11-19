@@ -21,7 +21,7 @@ def WriteFile(data):
 def initPoints(n):
     Points = []
     for i in range(0, n):  # Plots points on table
-        Points.append((np.random.randint(1, 100), random.randint(1, 100)))  # Change bounds to increase or decrease
+        Points.append((np.random.randint(-1000, 1000), random.randint(-1000, 1000)))  # Change bounds to increase or decrease
     return Points
 
 
